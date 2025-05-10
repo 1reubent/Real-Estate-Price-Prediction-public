@@ -66,7 +66,7 @@ This project investigates linear regression models, enhanced through regularizat
 The key findings include:
 \begin{itemize}
     \item Ridge Regression with feature engineering was the best model, achieving R² = 0.937 and RMSE = 0.108.
-    \item Feature engineering reduced test RMSE by up to 10\% and increased R² by up to 1.6\%.
+    \item Feature engineering reduced test RMSE by up to 10\% and increased R² by up to 1.8\%.
     \item The most predictive features included ``TotalSF\_Log'', ``OverallQual'', ``GrLivArea\_Log'', and ``Neighborhood\_Price''.
     \item Regularization effectively addressed multicollinearity and improved generalization.
 \end{itemize}
@@ -75,22 +75,19 @@ The developed models can assist various stakeholders in the real estate market, 
 
 \section{Introduction}
 
-This project addresses the problem of predicting housing prices in Ames, Iowa, through supervised learning. Specifically, we aim to determine how well linear models with regularization can estimate sale prices, and how feature engineering influences model performance.
+This project addresses the problem of predicting housing prices in Ames, Iowa, through supervised learning. Specifically, we aim to determine how well linear models with regularization can estimate sale prices, and how feature engineering would influence their performance.
 
-To solve this problem, we implemented:
-\begin{enumerate}
-    \item Standard linear regression (Ordinary Least Squares)
-    \item Ridge regression (L2 regularization)
-    \item Lasso regression (L1 regularization)
-\end{enumerate}
+% To solve this problem, we implemented:
+% \begin{enumerate}
+%     \item Standard linear regression (Ordinary Least Squares)
+%     \item Ridge regression (L2 regularization)
+%     \item Lasso regression (L1 regularization)
+% \end{enumerate}
 
-Each model was evaluated on both raw and feature-engineered datasets, for a total of six experiments. This approach allowed us to isolate the effect of feature engineering and regularization.
+% Each model was evaluated on both raw and feature-engineered datasets, for a total of six experiments. This approach allowed us to isolate the effect of feature engineering and regularization.
 
 \section{Motivation}
-
-This project is important because accurate housing price prediction helps various stakeholders make informed decisions. Potential homebuyers can determine if a house is fairly priced, sellers can set competitive prices, and investors can identify properties with growth potential.
-
-Understanding the factors that influence housing prices can inform urban planning and development strategies.
+This project is important because accurate housing price prediction helps various stakeholders make informed decisions. Potential homebuyers can determine if a house is fairly priced, sellers can set competitive prices, and investors can identify properties with growth potential. Understanding the factors that influence housing prices can inform urban planning and development strategies.
 
 I'm particularly excited about this project because it provides an opportunity to apply statistical learning techniques to a real-world problem with tangible implications. Real estate is one of the largest markets in the economy, and data-driven approaches can help make this market more efficient and transparent.
 
@@ -99,7 +96,6 @@ Existing questions in this area include:
     \item Which features have the strongest correlation with housing prices?
     \item How do different neighborhoods impact property values?
     \item Can regularization techniques improve prediction accuracy and model interpretability?
-    \item How effectively can we predict housing prices using only physical attributes versus including location data?
     \item Does feature engineering improve accuracy and interpretability?
 \end{itemize}
 
@@ -116,24 +112,24 @@ For this project, I used the Ames Iowa Housing dataset, which contains informati
     \item Special features: Fireplaces, pools, garages, etc.
 \end{enumerate}
 
-The target variable is SalePrice, which represents the property's sale value in dollars.
+% \subsection{Problem Definition and Feature Space}
 
-\subsection{Problem Definition and Feature Space}
+% The problem is defined as a regression task where we predict a continuous value (SalePrice) based on property features. The feature space was refined through:
+% \begin{enumerate}
+%     \item Data preprocessing: Handling missing values, outlier detection, and transformations
+%     \item Feature engineering: Creating new features, encoding categorical variables
+% \end{enumerate}
 
-The problem is defined as a regression task where we predict a continuous value (SalePrice) based on property features. The feature space was refined through:
-\begin{enumerate}
-    \item Data preprocessing: Handling missing values, outlier detection, and transformations
-    \item Feature engineering: Creating new features, encoding categorical variables
-\end{enumerate}
+\subsection{Problem Definition \& Model Selection}
 
-\subsection{Model Selection}
-
-We implemented and compared three models, each with two datasets:
+Because during EDA we observed that SalePrice was slightly skewed right, we chose to add a new log-transformed feature, SalePrice\_Log, to use as the target variable. Our goal was to train three regression models to predict SalePrice\_Log. We implemented these three models, each on two datasets:
 \begin{enumerate}
     \item Standard Linear Regression: Provides a baseline performance using Ordinary Least Squares (OLS)
     \item Ridge Regression: Applies L2 regularization to reduce model complexity and mitigate multicollinearity
     \item Lasso Regression: Employs L1 regularization which performs feature selection by shrinking less important feature coefficients to zero
 \end{enumerate}
+
+Each model was evaluated on both raw and feature-engineered datasets, for a total of six experiments. This approach allowed us to isolate the effect of feature engineering and regularization.
 
 \subsection{Implementation Steps}
 
@@ -142,7 +138,7 @@ We implemented and compared three models, each with two datasets:
     \begin{itemize}
         \item Analyze feature distributions
         \item Identify correlations between features and target variable
-        \item Detect outliers and anomalies
+        \item Detect any outliers and anomalies, if any
     \end{itemize}
     \item Data Preprocessing:
     \begin{itemize}
@@ -181,48 +177,116 @@ We implemented and compared three models, each with two datasets:
     \item Conclusion
 \end{enumerate}
 
-\subsection{Feature Engineering}
+% \subsection{Feature Engineering}
 
-Feature engineering was a critical component of our housing price prediction methodology, significantly enhancing model performance. The created features include:
+% Feature engineering was a critical component of our housing price prediction methodology, significantly enhancing model performance. The created features include:
 
-\subsubsection{Time-Based Features}
-\begin{itemize}
-    \item HouseAge, YearsSinceRemodel, IsRemodeled
-\end{itemize}
+% \subsubsection{Time-Based Features}
+% \begin{itemize}
+%     \item HouseAge, YearsSinceRemodel, IsRemodeled
+% \end{itemize}
 
-\subsubsection{Area and Size Features}
-\begin{itemize}
-    \item TotalSF: total square footage
-    \item TotalBath: Weighted sum of bathrooms
-    \item TotalPorchSF: Combined square footage of all porch types
-\end{itemize}
+% \subsubsection{Area and Size Features}
+% \begin{itemize}
+%     \item TotalSF: total square footage
+%     \item TotalBath: Weighted sum of bathrooms
+%     \item TotalPorchSF: Combined square footage of all porch types
+% \end{itemize}
 
-\subsubsection{Ratio and Proportion Features}
-\begin{itemize}
-    \item LotRatio: Calculated as LotFrontage / LotArea
-    \item BedroomRatio: Ratio of bedrooms to total rooms
-\end{itemize}
+% \subsubsection{Ratio and Proportion Features}
+% \begin{itemize}
+%     \item LotRatio: Calculated as LotFrontage / LotArea
+%     \item BedroomRatio: Ratio of bedrooms to total rooms
+% \end{itemize}
 
-\subsubsection{Interaction and Indicators}
-\begin{itemize}
-    \item OverallQualCond: Multiplication of OverallQual and OverallCond
-    \item HasPool, HasGarage, HasFireplace
-\end{itemize}
+% \subsubsection{Interaction and Indicators}
+% \begin{itemize}
+%     \item OverallQualCond: Multiplication of OverallQual and OverallCond
+%     \item HasPool, HasGarage, HasFireplace
+% \end{itemize}
 
-\subsubsection{Neighborhood Encoding}
-\begin{itemize}
-    \item Neighborhood\_Price: Mean sale price by neighborhood
-\end{itemize}
+% \subsubsection{Neighborhood Encoding}
+% \begin{itemize}
+%     \item Neighborhood\_Price: Mean sale price by neighborhood
+% \end{itemize}
 
 \subsection{Evaluation Metrics}
 
-To evaluate model performance, we used:
+To evaluate model performance, we used the root mean squared error (RMSE), mean absolute error (MAE), R squared score (R2), cross-validation scores (5 fold).
+% \begin{itemize}
+%     \item Root Mean Squared Error (RMSE)
+%     \item Mean Absolute Error (MAE)
+%     \item R-squared score (R²)
+%     \item Cross-validation scores (5-fold)
+% \end{itemize}
+
+\section{Insights and Methodology Rationale}
+
+\subsection{Exploratory Data Analysis Insights}
+
+\subsubsection{Target Variable Transformation}
+We chose to log-transform the SalePrice target variable because the original distribution exhibited significant right skewness (1.74 skewness value). This transformation helped reduce this positive skewness, and create a more normal distribution. This is important for linear models which assume that the target variable is normally distributed.
+
+\subsubsection{Key Correlation Findings}
+The correlation analysis revealed several features with strong positive correlations to SalePrice, namely OverallQual, GrLivArea, GarageCars, and TotalBsmtSF. This helped us determine which features will likely be most predictive and influential for the models. It also helped guide our feature engineering efforts, particularly in creating composite features that amplified these relationships.
+% \begin{itemize}
+%     \item OverallQual: Demonstrated the highest correlation, indicating the subjective quality assessment is extremely predictive
+%     \item GrLivArea: Above-ground living area showed strong correlation, confirming the importance of home size
+%     \item GarageCars and TotalBsmtSF: Both showed substantial correlation, highlighting the value placed on these amenities
+% \end{itemize}
+% These findings guided our feature engineering efforts, particularly in creating composite features that amplified these relationships.
+
+\subsubsection{Categorical Feature Analysis}
+The boxplot analysis of categorical variables like Neighborhood and ExterQual revealed significant group-level pricing patterns. Some neighborhoods consistently showed higher median prices, while quality metrics for kitchens and exteriors demonstrated substantial price impact across quality levels. This confirmed the need for effective encoding strategies for these categorical variables.
+
+\subsection{Preprocessing Rationale}
+
+\subsubsection{Missing Value Strategy}
+We needed to rigorously handle missing values because our models would not be able to handle them if kept in the dataset. At the same time, we didn't want to sacrifice any critical information. Therefore, our missing value imputation approach was carefully tailored to each feature type.
 \begin{itemize}
-    \item Root Mean Squared Error (RMSE)
-    \item Mean Absolute Error (MAE)
-    \item R-squared score (R²)
-    \item Cross-validation scores (5-fold)
+    \item For categorical features like FireplaceQu, missing values were replaced with 'None' to preserve the semantic meaning (absence of a fireplace)
+    \item For numerical features like LotFrontage, we employed group-based imputation using neighborhood medians, providing more accurate estimates than global measures
 \end{itemize}
+This approach prevented information loss while maintaining data integrity for model training
+
+\subsubsection{Feature Transformation \& Encoding}
+We applied log transformations to heavily right-skewed features like LotArea, MiscVal, and BsmtFinSF1. By doing so we make their relationships more linear, reduce the influence of outliers, and ultimately improve the performance of our linear models.
+Our encoding approach was feature-specific:
+\begin{itemize}
+    \item Ordinal encoding was applied to quality features (ExterQual, KitchenQual, etc.) to capture their inherent ordering (Excellent > Good > Average, etc.)
+    \item One-hot encoding was used for nominal categorical features with low cardinality, allowing models to learn group differences without imposing artificial ordering
+    \item These encoding choices allowed our models to effectively utilize both ordered and unordered categorical information
+\end{itemize}
+
+\subsection{Feature Engineering Rationale}
+
+\subsubsection{Domain-Informed Transformations}
+Our feature engineering decisions were driven by domain knowledge of real estate valuation and by our prior observations obtained during EDA. Some important new features include:
+\begin{itemize}
+    \item Time-Based Features (eg. HouseAge, IsRemodeled): Captures potential value added through renovation or lost through depreciation. These are often not linearly related to age.
+    \item Area and Size Features (eg. TotalSF, TotalBath): Created to provide a more comprehensive size metric than any individual area measurement.
+    \item Ratio and Proportion Features (e.g. LotRatio, BedroomRatio): Captures relationship between more relative relationships that might be missed by linear models. 
+    \item Products and Aggregation of Features (eg. OverallQualCond, Neighborhood\_Price): Captures more general aspects of homes that could have a combined effect beyond their individual impact.
+\end{itemize}
+
+\subsection{Model Selection and Hyperparameter Tuning}
+
+\subsubsection{Regularization Approach}
+We specifically chose Ridge and Lasso regression models to address challenges in the housing dataset:
+\begin{itemize}
+    \item The high-dimensional feature space (310 features after engineering) created overfitting risks
+    \item Multicollinearity between features (e.g., various area measurements) could destabilize standard linear regression
+    \item Ridge (L2) regularization shrinks all coefficients to reduce model complexity
+    \item Lasso (L1) regularization performs feature selection by reducing some coefficients to zero
+\end{itemize}
+
+\subsubsection{Hyperparameter Selection}
+Our GridSearch explored a range of alpha values:
+\begin{itemize}
+    \item Ridge: [0.001, ..., 1000]
+    \item Lasso: [0.0001, ..., 10]
+\end{itemize}
+This wide range was deliberately chosen to explore the spectrum from under-regularization to over-regularization, allowing us to identify the optimal balance between model fit and generalization.
 
 \section{Results}
 
@@ -256,14 +320,39 @@ Feature Engineering Benefits:
     \item Linear: $\sim$13\% RMSE reduction, +2.5\% R²
 \end{itemize}
 
-\subsection{Visualizations}
+% \subsection{Visualizations}
 
-The visualizations from the analysis reveal several key insights about housing price prediction in Ames, Iowa:
-\begin{enumerate}
-    \item The distribution of sale prices presented by histogram showed that Sales Price was positively skewed. This was addressed with log-transformation.
-    \item The multicollinearity heatmap and the scatter plots confirmed relationships between sale price and overall quality, garage area, and Total Basement sqft.
-    \item Feature importance plots highlight that quality/condition metrics (e.g. overall quality, kitchen quality, sale condition) and size-related variables (e.g. TotalSF, GrLivArea) contribute most significantly to price determination.
-\end{enumerate}
+% The visualizations from the analysis reveal several key insights about housing price prediction in Ames, Iowa:
+% \begin{enumerate}
+%     \item The distribution of sale prices presented by histogram showed that Sales Price was positively skewed. This was addressed with log-transformation.
+%     \item The multicollinearity heatmap and the scatter plots confirmed relationships between sale price and overall quality, garage area, and Total Basement sqft.
+%     \item Feature importance plots highlight that quality/condition metrics (e.g. overall quality, kitchen quality, sale condition) and size-related variables (e.g. TotalSF, GrLivArea) contribute most significantly to price determination.
+% \end{enumerate}
+
+\subsection{Prediction Visualization Analysis}
+
+\subsubsection{Actual vs. Predicted Analysis}
+The comparison of actual vs. predicted values showed that the best model (Ridge Regression with feature engineering) demonstrated very tight clustering along the identity line, indicating very strong predictive accuracy. The model performed consistently across most of the price range. However there looked to be a slight tendency to under predict for the highest-value homes, suggesting potential for improvement in this region.
+
+\subsubsection{Residual Analysis}
+The residual plots provided additional diagnostics. The scatterplot confirmed that the model was very consistent, and that it had a tendency to underpredict high-value properties. The distribution was approximately normal with a very slight right skew, again confirming the underprediction tendency.
+% \begin{itemize}
+%     \item The residuals showed no strong patterns across the prediction range, supporting the assumption of homoscedasticity
+%     \item The residual distribution was approximately normal with a slight tail, confirming some underprediction for high-value properties
+%     \item The lack of distinct patterns in the residuals suggested the model captured most systematic variation in the data
+% \end{itemize}
+
+\subsection{Feature Importance Insights}
+
+The feature importance analysis identified the most influential predictors:
+\begin{itemize}
+    \item TotalSF\_Log: Emerged as the single most important feature, confirming that total home size is the primary value driver
+    \item OverallQual: The subjective quality rating showed very high importance, highlighting the value of expert assessment
+    \item GrLivArea\_Log: Above-ground living area remained highly influential even with total square footage present
+    \item Neighborhood\_Price: This engineered feature effectively captured location value, demonstrating the success of our feature engineering approach
+\end{itemize}
+
+    Between the the Ridge and Lasso models, both approaches identified similar top features. TotalSF\_Log was the most important feature in both models, showing the strongest positive coefficient. However, there were some interesting differences. Lasso tended to prefer a few, very important features, whereas Ridge regression distributed importance across more features. This is characteristic of L1 and L2 regularization, and confirms that our models behaved normally.
 
 \section{Discussion}
 
@@ -275,17 +364,17 @@ Our actual results largely aligned with these expectations. Both regularized mod
 
 The feature importance analysis revealed some surprising insights. While we expected features like overall quality and above-ground living area to be significant predictors, we did not anticipate the substantial impact of basement-related features. The finished basement area emerged as one of the top predictors, indicating that below-ground living space is highly valued in this market.
 
-Additionally, I was surprised by the relatively modest impact of lot size compared to home quality metrics. This suggests that in Ames, Iowa, homebuyers prioritize the quality and condition of the structure more than the size of the land it sits on. This finding contrasts with studies from other real estate markets where land value is often a dominant factor, particularly in high-density urban areas.
+% Additionally, I was surprised by the relatively modest impact of lot size compared to home quality metrics. This suggests that in Ames, Iowa, homebuyers prioritize the quality and condition of the structure more than the size of the land it sits on. This finding contrasts with studies from other real estate markets where land value is often a dominant factor, particularly in high-density urban areas.
 
-\subsection{Impact of Feature Engineering}
+% \subsection{Impact of Feature Engineering}
 
-Our feature engineering efforts expanded the feature space from the original set to a significantly larger number of engineered features (multiple new features were created). This process:
-\begin{enumerate}
-    \item Captured domain knowledge: By incorporating real estate principles into features like age, total area, and quality-condition interactions.
-    \item Improved model performance: The R² score increased from 0.89 with basic features to 0.94 with engineered features.
-    \item Enhanced interpretability: Created features that align with intuitive understanding of housing valuation factors.
-    \item Addressed statistical requirements: Transformations helped meet linear regression assumptions by normalizing distributions and reducing multicollinearity.
-\end{enumerate}
+% Our feature engineering efforts expanded the feature space from the original set to a significantly larger number of engineered features (multiple new features were created). This process:
+% \begin{enumerate}
+%     \item Captured domain knowledge: By incorporating real estate principles into features like age, total area, and quality-condition interactions.
+%     \item Improved model performance: The R² score increased from 0.89 with basic features to 0.94 with engineered features.
+%     \item Enhanced interpretability: Created features that align with intuitive understanding of housing valuation factors.
+%     \item Addressed statistical requirements: Transformations helped meet linear regression assumptions by normalizing distributions and reducing multicollinearity.
+% \end{enumerate}
 
 \subsection{Limitations and Future Work}
 
@@ -295,17 +384,14 @@ Despite the strong performance of our models, several limitations should be ackn
     \item Geographic specificity: The models are trained on data from Ames, Iowa only and may not transfer well to other real estate markets with different valuation dynamics.
     \item Missing external factors: Economic indicators, interest rates, and market trends are not captured in the dataset but likely influence housing prices significantly.
     \item Model simplicity: While linear models offer interpretability, they may miss complex non-linear relationships between features and price.
-    \item Limited sample size: Working with a relatively small dataset (especially evident in our limited sample) may not fully capture the diversity of housing characteristics.
 \end{enumerate}
 
 To improve this analysis in future work, I would recommend:
 \begin{enumerate}
-    \item Feature interaction exploration: Investigate how combinations of features might influence price, such as how the value of square footage differs by neighborhood or how renovation year interacts with original construction year.
     \item Advanced modeling techniques: Implement ensemble methods or gradient boosting models to capture more complex patterns and potentially improve prediction accuracy.
     \item Time series analysis: Incorporate temporal trends in housing prices to account for market fluctuations and seasonality effects.
     \item External data integration: Include economic indicators, school district ratings, crime statistics, and neighborhood development data to provide additional context.
     \item Neural network approach: Explore deep learning techniques for potentially higher accuracy, especially for capturing non-linear relationships in the data.
-    \item Spatial analysis: Incorporate geospatial techniques to better capture location effects beyond simple neighborhood categorization.
 \end{enumerate}
 
 \section{Conclusion}
